@@ -1,5 +1,6 @@
 package com.flightapp.service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +33,11 @@ public class AirLineService {
 	}
 
 	public AirLine save(AirLineDto airLineDto) throws CustomizedException {
-		Optional<AirLine> recordExistfindById = recordExistfindById(airLineDto.getAirLineCode());
-		if (!recordExistfindById.isPresent()) {
+		if (!repo.findById(airLineDto.getAirLineCode()).isPresent()) {
 			AirLine airline = new AirLine();
-			if (airLineDto.getStatus().toString().equalsIgnoreCase("0")) // block
+			if (airLineDto.getStatus().toString().equalsIgnoreCase("1")) // block
 				airline.setStatus(true);
-			else if (airLineDto.getStatus().toString().equalsIgnoreCase("1")) // unblock
+			else if (airLineDto.getStatus().toString().equalsIgnoreCase("0")) // unblock
 				airline.setStatus(false);
 			BeanUtils.copyProperties(airLineDto, airline);
 			return repo.save(airline);
@@ -61,6 +61,10 @@ public class AirLineService {
 		if (repo.findById(airLineDto.getAirLineCode()).isPresent()) {
 			AirLine existingAirLine = repo.findById(airLineDto.getAirLineCode()).get();
 		    BeanUtils.copyProperties(airLineDto, existingAirLine);
+		    if (airLineDto.getStatus().toString().equalsIgnoreCase("1")) // block
+		    	existingAirLine.setStatus(true);
+			else if (airLineDto.getStatus().toString().equalsIgnoreCase("0")) // unblock
+				existingAirLine.setStatus(false);
 			repo.save(existingAirLine);
 			map.put("message :: ", "Update Succesfully With Air Line Code " + airLineDto.getAirLineCode());
 			return map;
@@ -73,6 +77,18 @@ public class AirLineService {
 
 	public Optional<AirLine> recordExistfindById(String airLineCode) {
 		return repo.findById(airLineCode);
+	}
+
+	public Map<String, AirLine> findById(String airLineCode) throws CustomizedException {
+		Map<String, AirLine> map = new LinkedHashMap<String, AirLine>();
+		Optional<AirLine> findById = repo.findById(airLineCode);
+		if (findById.isPresent()) {
+			AirLine airLine = findById.get();
+			map.put("airLineDetails", airLine);
+			return map;
+		} else {
+			throw new CustomizedException("No Records  Found With Id"+airLineCode);
+		}
 	}
 
 }

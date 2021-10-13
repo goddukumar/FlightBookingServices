@@ -1,10 +1,16 @@
 
 package com.flightapp.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -12,7 +18,7 @@ import lombok.Data;
 @Table(name = "Air_Lines")
 @Data
 public class AirLine {
-	
+
 	@Id
 	@Column(name = "Air_Line_Code")
 	private String airLineCode;
@@ -23,6 +29,10 @@ public class AirLine {
 	@Column(name = "Air_Line_Status")
 	private boolean status;
 
+	@JsonIgnore
+	@OneToMany(mappedBy="airLine")
+	private List<FlightDetails> flightDetails;
+
 	public AirLine() {
 	}
 
@@ -31,8 +41,6 @@ public class AirLine {
 		this.airLineName = airLineName;
 		this.status = status;
 	}
-
-	
 
 	public String getAirLineCode() {
 		return airLineCode;
@@ -56,6 +64,10 @@ public class AirLine {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public List<FlightDetails> getFlightDetails() {
+		return flightDetails;
 	}
 
 }

@@ -38,6 +38,12 @@ public class AirLineController {
 	public ResponseEntity<AirLine> addAirLine(@Valid @RequestBody AirLineDto airLineDto) throws CustomizedException {
 		return ResponseEntity.ok().body(service.save(airLineDto));
 	}
+	
+	@GetMapping("/getAirLineByCode/{airLineCode}")
+	public ResponseEntity<Map<String, AirLine>> getAirLineByAirLineCode(@PathVariable String airLineCode) throws CustomizedException
+	{
+		return ResponseEntity.ok().body(service.findById(airLineCode));
+	}
 
 	@PostMapping("/updateAirLine")
 	public ResponseEntity<Map<String, String>> updateAirLine(@Valid @RequestBody AirLineDto airLineDto) {
