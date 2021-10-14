@@ -55,14 +55,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable()
 				.authorizeRequests()
-				      .antMatchers("/login","/swagger-ui/index.html","/**")
+				      .antMatchers("/login")
 				      .permitAll()
 					  .anyRequest().authenticated()
 					  .and()
 					  .exceptionHandling().and().sessionManagement()
 				      .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
 	}
 	
 	

@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Flight_Details")
 public class FlightDetails {
@@ -16,7 +18,9 @@ public class FlightDetails {
 	private Integer avaiableSeats;
 	private String instrumentUsed;
 	private double price;
-	@ManyToOne
+	
+	//@JsonIgnore
+ 	@ManyToOne
 	@JoinColumn(name="air_line_code")
 	private AirLine airLine;
 	

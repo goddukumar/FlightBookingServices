@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,23 +32,23 @@ public class AirLineController {
 
 	@GetMapping("/showAllAirLines")
 	public ResponseEntity<List<AirLine>> getAllAirLines() {
-		return ResponseEntity.ok().body(service.findAllAirlines());
+		return service.findAllAirlines();
+	}
+	
+	@GetMapping("/getAirLineByCode/{airLineCode}")
+	public ResponseEntity<AirLine> getAirLineByAirLineCode(@PathVariable String airLineCode) throws CustomizedException
+	{
+		return service.findById(airLineCode);
 	}
 
 	@PostMapping("/addAirLine")
 	public ResponseEntity<AirLine> addAirLine(@Valid @RequestBody AirLineDto airLineDto) throws CustomizedException {
-		return ResponseEntity.ok().body(service.save(airLineDto));
-	}
-	
-	@GetMapping("/getAirLineByCode/{airLineCode}")
-	public ResponseEntity<Map<String, AirLine>> getAirLineByAirLineCode(@PathVariable String airLineCode) throws CustomizedException
-	{
-		return ResponseEntity.ok().body(service.findById(airLineCode));
+		return service.save(airLineDto);
 	}
 
-	@PostMapping("/updateAirLine")
-	public ResponseEntity<Map<String, String>> updateAirLine(@Valid @RequestBody AirLineDto airLineDto) {
-		return ResponseEntity.ok().body(service.upDateAirLine(airLineDto));
+	@PutMapping("/updateAirLine/{id}")
+	public ResponseEntity<AirLine> updateAirLine(@PathVariable("id") String airLineCode,@Valid @RequestBody AirLineDto airLineDto) {
+		return service.upDateAirLine(airLineCode,airLineDto);
 	}
 
 	@DeleteMapping("deleteAirLineId/{airLineCode}")

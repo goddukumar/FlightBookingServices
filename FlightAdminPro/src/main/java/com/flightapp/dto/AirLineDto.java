@@ -5,12 +5,10 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 
 public class AirLineDto implements Serializable{
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	@NotEmpty(message="Air Line Code Can Not Be Empty OR Null")
 	private String airLineCode;
 	@NotEmpty(message="Air Line Name Can Not Be Empty OR Null")
@@ -36,9 +34,5 @@ public class AirLineDto implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
-	
-
 }
 
