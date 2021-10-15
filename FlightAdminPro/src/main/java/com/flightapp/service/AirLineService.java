@@ -44,14 +44,19 @@ public class AirLineService {
 
 	public ResponseEntity<AirLine> save(AirLineDto airLineDto) throws CustomizedException {
 		try {
-			AirLine airline = new AirLine();
-			if (airLineDto.getStatus().toString().equalsIgnoreCase("1")) // block
-				airline.setStatus(true);
-			else if (airLineDto.getStatus().toString().equalsIgnoreCase("0")) // unblock
-				airline.setStatus(false);
-			BeanUtils.copyProperties(airLineDto, airline);
-			AirLine airLine = repo.save(airline);
-			return new ResponseEntity<>(airLine, HttpStatus.CREATED);
+			Optional<AirLine> airLineDetails = repo.findById(airLineDto.getAirLineCode());
+			if (!airLineDetails.isPresent()) {
+				AirLine airline = new AirLine();
+				if (airLineDto.getStatus().toString().equalsIgnoreCase("1")) // block
+					airline.setStatus(true);
+				else if (airLineDto.getStatus().toString().equalsIgnoreCase("0")) // unblock
+					airline.setStatus(false);
+				BeanUtils.copyProperties(airLineDto, airline);
+				AirLine airLine = repo.save(airline);
+				return new ResponseEntity<>(airLine, HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<>(null, HttpStatus.FOUND);
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -68,9 +73,8 @@ public class AirLineService {
 		return isDeleted;
 	}
 
-	public ResponseEntity<AirLine> upDateAirLine(String airLineCode, @Valid AirLineDto airLineDto) {
-		Optional<AirLine> airLineData = repo.findById(airLineCode);
-
+	public ResponseEntity<AirLine> upDateAirLine(AirLineDto airLineDto) {
+		Optional<AirLine> airLineData = repo.findById(airLineDto.getAirLineCode());
 		if (airLineData.isPresent()) {
 			AirLine existingAirLine = airLineData.get();
 			BeanUtils.copyProperties(airLineDto, existingAirLine);

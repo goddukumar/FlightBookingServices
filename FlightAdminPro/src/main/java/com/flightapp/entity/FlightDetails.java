@@ -7,8 +7,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "Flight_Details")
 public class FlightDetails {
@@ -19,10 +17,16 @@ public class FlightDetails {
 	private String instrumentUsed;
 	private double price;
 	
-	//@JsonIgnore
  	@ManyToOne
 	@JoinColumn(name="air_line_code")
 	private AirLine airLine;
+ 	
+	/*
+	 * @JsonIgnore
+	 * 
+	 * @OneToMany(mappedBy="flightDtls",cascade=CascadeType.REMOVE) private
+	 * List<FlightSchedule> fligthSchedule;
+	 */
 	
 	public String getFlightNumber() {
 		return flightNumber;
@@ -56,4 +60,11 @@ public class FlightDetails {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	/*
+	 * public List<FlightSchedule> getFligthSchedule() { return fligthSchedule; }
+	 * public void setFligthSchedule(List<FlightSchedule> fligthSchedule) {
+	 * this.fligthSchedule = fligthSchedule; }
+	 */
+	
+	
 }

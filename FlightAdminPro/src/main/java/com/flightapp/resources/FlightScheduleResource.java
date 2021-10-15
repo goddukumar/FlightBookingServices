@@ -1,28 +1,32 @@
 package com.flightapp.resources;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flightapp.dto.FlightScheduleDto;
 import com.flightapp.entity.FlightSchedule;
 import com.flightapp.service.FlightScheduleService;
 
 @RestController
 public class FlightScheduleResource {
 
-	private FlightScheduleService service;
+	private FlightScheduleService flightScheduleService;
 
-	@Autowired
-	public FlightScheduleResource(FlightScheduleService service) {
-		this.service = service;
+	public FlightScheduleResource(FlightScheduleService flightScheduleService) {
+		this.flightScheduleService = flightScheduleService;
 	}
 
-	@PostMapping(value = "/addFlightSchedule")
-	public void addSchedule(@RequestBody FlightSchedule flightSchedule) {
-		service.addFlightSchedule(flightSchedule);
+	@PostMapping(value = "/scheduleFlights")
+    public ResponseEntity<FlightSchedule> addFlightSchedule(@RequestBody FlightScheduleDto flightScheduleDTO) {
+           return  flightScheduleService.addFlightSchedule(flightScheduleDTO);
+    }
 
-	}
+    @GetMapping(value = "searchAllScheduleFlights")
+    public void searchAllFlightSchedule() {
+        flightScheduleService.findAllFlightSchedules();
+    }
 
 }

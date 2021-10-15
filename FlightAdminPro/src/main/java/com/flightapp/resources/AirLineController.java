@@ -46,9 +46,9 @@ public class AirLineController {
 		return service.save(airLineDto);
 	}
 
-	@PutMapping("/updateAirLine/{id}")
-	public ResponseEntity<AirLine> updateAirLine(@PathVariable("id") String airLineCode,@Valid @RequestBody AirLineDto airLineDto) {
-		return service.upDateAirLine(airLineCode,airLineDto);
+	@PutMapping("/updateAirLineBlockOrUnblock")
+	public ResponseEntity<AirLine> updateAirLine(@Valid @RequestBody AirLineDto airLineDto) {
+		return service.upDateAirLine(airLineDto);
 	}
 
 	@DeleteMapping("deleteAirLineId/{airLineCode}")

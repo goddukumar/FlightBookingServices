@@ -1,19 +1,17 @@
 package com.flightapp.entity;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Scheduled_Dtls")
@@ -22,39 +20,54 @@ public class FlightSchedule {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "schedule_id")
-	private int scheduleId;
-
-	@Column(name = "start_date_time")
+	private int flightScheduleId;
+	private String airLineCode;
+	private String airLineName;
 	private LocalDateTime startDateTime;
-
-	@Column(name = "end_date_time")
-	private LocalDateTime endDataTime;
-
-	@Column(name = "from_location")
+	private LocalDateTime endDateTime;
 	private String fromLocation;
-
-	@Column(name = "toLocation")
 	private String toLocation;
-
-	@Column(name = "meal")
 	private String meal;
-
-	@ManyToOne(targetEntity = FlightDetails.class,cascade = CascadeType.ALL,fetch =FetchType.LAZY)
-	@JoinColumn(name = "flight_number")
+	private Double ticketPrice;
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name="flight_number_code")
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
 	private FlightDetails flightDtls;
 
-	@Transient
-	private String startDatTim;
-
-	@Transient
-	private String endDateTim;
-
-	public int getScheduleId() {
-		return scheduleId;
+	public int getFlightScheduleId() {
+		return flightScheduleId;
 	}
 
-	public void setScheduleId(int scheduleId) {
-		this.scheduleId = scheduleId;
+	public void setFlightScheduleId(int flightScheduleId) {
+		this.flightScheduleId = flightScheduleId;
+	}
+
+	public String getAirLineCode() {
+		return airLineCode;
+	}
+
+	public void setAirLineCode(String airLineCode) {
+		this.airLineCode = airLineCode;
+	}
+
+	public String getAirLineName() {
+		return airLineName;
+	}
+
+	public void setAirLineName(String airLineName) {
+		this.airLineName = airLineName;
+	}
+
+	public FlightDetails getFlightDtls() {
+		return flightDtls;
+	}
+
+	public void setFlightDtls(FlightDetails flightDtls) {
+		this.flightDtls = flightDtls;
 	}
 
 	public LocalDateTime getStartDateTime() {
@@ -65,12 +78,12 @@ public class FlightSchedule {
 		this.startDateTime = startDateTime;
 	}
 
-	public LocalDateTime getEndDataTime() {
-		return endDataTime;
+	public LocalDateTime getEndDateTime() {
+		return endDateTime;
 	}
 
-	public void setEndDataTime(LocalDateTime endDataTime) {
-		this.endDataTime = endDataTime;
+	public void setEndDateTime(LocalDateTime endDateTime) {
+		this.endDateTime = endDateTime;
 	}
 
 	public String getFromLocation() {
@@ -97,37 +110,12 @@ public class FlightSchedule {
 		this.meal = meal;
 	}
 
-	public FlightDetails getFlightDtls() {
-		return flightDtls;
+	public Double getTicketPrice() {
+		return ticketPrice;
 	}
 
-	public void setFlightDtls(FlightDetails flightDtls) {
-		this.flightDtls = flightDtls;
-	}
-
-	public String getStartDatTim() {
-		return startDatTim;
-	}
-
-	public void setStartDatTim(String startDatTim) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		if (startDatTim != null) {
-			this.startDateTime = LocalDateTime.parse(startDatTim, formatter);
-		}
-		this.startDatTim = startDatTim;
-	}
-
-	public String getEndDateTim() {
-		return endDateTim;
-	}
-
-	public void setEndDateTim(String endDateTim) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-		if (endDateTim != null) {
-			this.endDataTime = LocalDateTime.parse(endDateTim, formatter);
-		}
-		this.endDateTim = endDateTim;
+	public void setTicketPrice(Double ticketPrice) {
+		this.ticketPrice = ticketPrice;
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flightapp.dto.AirLineBasedFlightDtls;
+import com.flightapp.dto.FlightDetailsDto;
 import com.flightapp.entity.FlightDetails;
 import com.flightapp.service.FlightService;
 
@@ -34,9 +35,9 @@ public class FligthResource {
 		return service.addFligth(flight);
 	}
 	
-	@PutMapping("/updateFlight/{id}")
-	public ResponseEntity<FlightDetails> updateFlight(@PathVariable("id") String flightNumber,@RequestBody FlightDetails flight) {
-		 return service.updateFlight(flightNumber,flight);
+	@PostMapping("/updateFlight")
+	public ResponseEntity<FlightDetails> updateFlight(@RequestBody FlightDetailsDto flight) {
+		 return service.updateFlight(flight);
 	}
 
 	@DeleteMapping("deleteFlight/{flightNumber}")
