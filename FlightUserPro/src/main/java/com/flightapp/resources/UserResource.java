@@ -30,8 +30,8 @@ public class UserResource {
 
 	@GetMapping(value = "/searchFlights")
 	public ResponseEntity<List<SearchFlightDto>> search(@RequestParam String fromLocation,
-			@RequestParam String toLocation) {
-		return userService.serachFlights(fromLocation, toLocation);
+			@RequestParam String toLocation,@RequestParam String departurdate) {
+		return userService.serachFlights(fromLocation, toLocation,departurdate);
 	}
 
 	@PostMapping(value = "bookTicket/{flightNumber}")
@@ -51,7 +51,7 @@ public class UserResource {
 	}
 	
 	@PutMapping(value = "/cancel/{pnrNo}")
-    public String cancelTicket(@PathVariable String pnrNo) {
+    public boolean cancelTicket(@PathVariable String pnrNo) {
             return userService.cancelTicket(pnrNo);
     }
 

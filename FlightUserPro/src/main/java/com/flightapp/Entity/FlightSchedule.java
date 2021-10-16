@@ -27,8 +27,8 @@ public class FlightSchedule {
 	@JsonIgnore
 	private String airLineCode;
 	private String airLineName;
-	private LocalDateTime startDateTime;
-	private LocalDateTime endDateTime;
+	private String startDateTime;
+	private String endDateTime;
 	private String fromLocation;
 	private String toLocation;
 	private String meal;
@@ -62,21 +62,21 @@ public class FlightSchedule {
 		this.airLineName = airLineName;
 	}
 
+	
 
-
-	public LocalDateTime getStartDateTime() {
+	public String getStartDateTime() {
 		return startDateTime;
 	}
 
-	public void setStartDateTime(LocalDateTime startDateTime) {
+	public void setStartDateTime(String startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 
-	public LocalDateTime getEndDateTime() {
+	public String getEndDateTime() {
 		return endDateTime;
 	}
 
-	public void setEndDateTime(LocalDateTime endDateTime) {
+	public void setEndDateTime(String endDateTime) {
 		this.endDateTime = endDateTime;
 	}
 

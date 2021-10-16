@@ -1,14 +1,13 @@
 package com.flightapp.dto;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class SearchFlightDto {
 
 	private String fromLocation;
 	private String toLocation;
-	private LocalDateTime startDateTime;
-	private LocalDateTime endDateTime;
+	private String startDateTime;
+	private String endDateTime;
 
 	private String meal;
 	private double ticketPrice;
@@ -16,9 +15,8 @@ public class SearchFlightDto {
 	private String flightNumber;
 	private Integer avaiableSeats;
 
-	public SearchFlightDto(String fromLocation, String toLocation, LocalDateTime startDateTime,
-			LocalDateTime endDateTime, String meal, double ticketPrice, String airLineName, String flightNumber,
-			Integer avaiableSeats) {
+	public SearchFlightDto(String fromLocation, String toLocation, String startDateTime, String endDateTime,
+			String meal, double ticketPrice, String airLineName, String flightNumber, Integer avaiableSeats) {
 		this.fromLocation = fromLocation;
 		this.toLocation = toLocation;
 		this.startDateTime = startDateTime;
@@ -46,19 +44,19 @@ public class SearchFlightDto {
 		this.toLocation = toLocation;
 	}
 
-	public LocalDateTime getStartDateTime() {
+	public String getStartDateTime() {
 		return startDateTime;
 	}
 
-	public void setStartDateTime(LocalDateTime startDateTime) {
+	public void setStartDateTime(String startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 
-	public LocalDateTime getEndDateTime() {
+	public String getEndDateTime() {
 		return endDateTime;
 	}
 
-	public void setEndDateTime(LocalDateTime endDateTime) {
+	public void setEndDateTime(String endDateTime) {
 		this.endDateTime = endDateTime;
 	}
 

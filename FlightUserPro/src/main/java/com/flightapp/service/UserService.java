@@ -39,16 +39,17 @@ public class UserService {
 	@Autowired
 	private BookTicketRepository bookTicketRepository;
 
-	public ResponseEntity<List<SearchFlightDto>> serachFlights(String fromLocation, String toLocation) {
+	public ResponseEntity<List<SearchFlightDto>> serachFlights(String fromLocation, String toLocation,
+			String departurdate) {
 		try {
-			//Date startDate=(Date) new SimpleDateFormat("dd-MM-yyyy").parse(start_date);
+			Date startDate = (Date) new SimpleDateFormat("dd-MM-yyyy").parse(departurdate);
 			/*
 			 * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			 * LocalDateTime localDateTime = null; if (start_date != null) { localDateTime =
 			 * LocalDateTime.parse(start_date, formatter); }
 			 */
-			
-			List<SearchFlightDto> flightSchedules = repo.serachFlightsTwo(fromLocation, toLocation);
+
+			List<SearchFlightDto> flightSchedules = repo.serachFlightsTwo(fromLocation, toLocation,startDate);
 			if (!flightSchedules.isEmpty()) {
 				return new ResponseEntity<>(flightSchedules, HttpStatus.OK);
 			} else {
@@ -80,12 +81,12 @@ public class UserService {
 			BeanUtils.copyProperties(dto, ticket, dto.getDepartureDate());
 			ticket.setPnrNo(String.valueOf(new Random().nextInt()));
 			ticket.setFlightNumber(flightSchedule.get().getFlightNumber());
-			ticket.setArrivalDate(flightSchedule.get().getEndDateTime());
-			ticket.setDepartureDate(flightSchedule.get().getStartDateTime());
+			String endDateTime = flightSchedule.get().getEndDateTime();
+			ticket.setArrivalDate(convetDateTime(endDateTime));
+			ticket.setDepartureDate(convetDateTime(flightSchedule.get().getStartDateTime()));
 			ticket.setFromPlace(flightSchedule.get().getFromLocation());
 			ticket.setToPlace(flightSchedule.get().getToLocation());
 			ticket.setStatus("Booked");
-
 			Optional<FlightDetails> flight = flightRepository.findById(flightNumber);
 			if (flight.isPresent()) {
 				flight.get().setAvaiableSeats(flight.get().getAvaiableSeats() - dto.getSeats());
@@ -106,13 +107,19 @@ public class UserService {
 		return bookTicketRepository.searchByPnr(pnrNo);
 	}
 
-	public String cancelTicket(String pnrNo) {
-		String status = null;
+	public boolean cancelTicket(String pnrNo) {
+		boolean status = false;
 		int count = bookTicketRepository.cancelTicket(pnrNo, "Cancelled");
 		if (count == 1) {
-			status = "ticket cancelled";
+			status = true;
 		}
 		return status;
+	}
+	
+	
+	private LocalDateTime convetDateTime(String dateTime) {
+		LocalDateTime d = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+       return d;
 	}
 
 }
