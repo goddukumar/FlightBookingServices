@@ -1,6 +1,7 @@
-package com.flightapp.entity;
+package com.flightapp.Entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,12 +17,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "Scheduled_Dtls")
 public class FlightSchedule {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "schedule_id")
+	@JsonIgnore
 	private int flightScheduleId;
 	private String flightNumber;
+	@JsonIgnore
 	private String airLineCode;
 	private String airLineName;
 	private LocalDateTime startDateTime;
@@ -30,11 +33,7 @@ public class FlightSchedule {
 	private String toLocation;
 	private String meal;
 	private Double ticketPrice;
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name="flight_number_code")
-	 */
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JsonIgnore
 	private FlightDetails flightDtls;
@@ -63,13 +62,7 @@ public class FlightSchedule {
 		this.airLineName = airLineName;
 	}
 
-	public FlightDetails getFlightDtls() {
-		return flightDtls;
-	}
 
-	public void setFlightDtls(FlightDetails flightDtls) {
-		this.flightDtls = flightDtls;
-	}
 
 	public LocalDateTime getStartDateTime() {
 		return startDateTime;
@@ -118,6 +111,13 @@ public class FlightSchedule {
 	public void setTicketPrice(Double ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
+	public FlightDetails getFlightDtls() {
+		return flightDtls;
+	}
+
+	public void setFlightDtls(FlightDetails flightDtls) {
+		this.flightDtls = flightDtls;
+	}
 
 	public String getFlightNumber() {
 		return flightNumber;
@@ -126,7 +126,5 @@ public class FlightSchedule {
 	public void setFlightNumber(String flightNumber) {
 		this.flightNumber = flightNumber;
 	}
-	
-	
 
 }

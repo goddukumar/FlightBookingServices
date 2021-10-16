@@ -1,26 +1,28 @@
 package com.flightapp.Entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "book_ticket_dtls")
 public class BookTicket {
-	  @Id
+	
+	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long ticketId;
+	    @JsonIgnore
+	    private Integer ticketId;
 	    private String pnrNo;
 	    private String flightNumber;
 	    private LocalDateTime departureDate;
@@ -32,18 +34,19 @@ public class BookTicket {
 	    private int seats;
 	    private String meal;
 	    private String status;
-	    
-	    
-	    @OneToMany(cascade = CascadeType.ALL)
+
+	    @OneToMany(cascade =javax.persistence.CascadeType.ALL)
 	    @Fetch(FetchMode.JOIN)
 	    @JoinColumn(name = "ticketId")
-	    private List<PassengerDetails> passengers;
+	    private List<Passanger> passengers;
 
-	    public Long getTicketId() {
+		
+
+		public Integer getTicketId() {
 			return ticketId;
 		}
 
-		public void setTicketId(Long ticketId) {
+		public void setTicketId(Integer ticketId) {
 			this.ticketId = ticketId;
 		}
 
@@ -62,6 +65,8 @@ public class BookTicket {
 		public void setFlightNumber(String flightNumber) {
 			this.flightNumber = flightNumber;
 		}
+
+		
 
 		public LocalDateTime getDepartureDate() {
 			return departureDate;
@@ -135,18 +140,16 @@ public class BookTicket {
 			this.status = status;
 		}
 
-		public List<PassengerDetails> getPassengers() {
+		public List<Passanger> getPassengers() {
 			return passengers;
 		}
 
-		public void setPassengers(List<PassengerDetails> passengers) {
+		public void setPassengers(List<Passanger> passengers) {
 			this.passengers = passengers;
 		}
-
-		
 	    
 	    
+	
+	
 
-	
-	
 }

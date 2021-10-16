@@ -36,7 +36,7 @@ public class FlightScheduleService {
 			if (airLineDtls.get().isStatus()) {
 				Optional<FlightDetails> flighDtls = flightRepo.findById(dto.getFlightNumber());
 				if (flighDtls.isPresent()) {
-					//flightSchedule.setFlightNumber(flighDtls.get().getFlightNumber());
+					flightSchedule.setFlightNumber(flighDtls.get().getFlightNumber());
 					flightSchedule.setAirLineCode(airLineDtls.get().getAirLineCode());
 					flightSchedule.setAirLineName(airLineDtls.get().getAirLineName());
 					flightSchedule.setToLocation(dto.getToLocation());

@@ -1,14 +1,20 @@
 package com.flightapp.Entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Air_Lines")
 public class AirLine {
-	
+
 	@Id
 	@Column(name = "Air_Line_Code")
 	private String airLineCode;
@@ -42,9 +48,5 @@ public class AirLine {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
-	
-	    
-	    
 
 }
